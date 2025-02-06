@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'packaging_delivery_screen.dart';
 import 'product_details_screen.dart';
 
-class ManageShopScreen extends StatelessWidget {
-  const ManageShopScreen({super.key});
+class ManageShopScreen extends StatefulWidget {
+  final String baseUrl;
+
+  const ManageShopScreen({super.key, required this.baseUrl});
+
+  @override
+  State<ManageShopScreen> createState() => _ManageShopScreenState();
+}
+
+class _ManageShopScreenState extends State<ManageShopScreen> {
+  // Access the baseUrl using widget.baseUrl in this class
 
   @override
   Widget build(BuildContext context) {
@@ -42,22 +51,33 @@ class ManageShopScreen extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+                minimumSize: const Size(double.infinity, 48),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
-              child: const Text('Add Image'),
+              child: const Text(
+                'Add Image',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
             const SizedBox(height: 16),
-            Row(
-              children: [
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(Icons.add_a_photo, color: Colors.red),
-                ),
-              ],
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade300),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Icons.add_a_photo,
+                color: Colors.red,
+                size: 24,
+              ),
             ),
             const SizedBox(height: 16),
             _buildMenuButton(context, 'Offer & Discount'),
@@ -96,7 +116,8 @@ class ManageShopScreen extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ProductDetailsScreen(),
+                builder: (context) =>
+                    ProductDetailsScreen(baseUrl: widget.baseUrl),
               ),
             );
           }

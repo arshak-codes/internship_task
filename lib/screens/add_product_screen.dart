@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 
 class AddProductScreen extends StatefulWidget {
-  const AddProductScreen({super.key});
+  final String baseUrl;
+
+  const AddProductScreen({super.key, required this.baseUrl});
 
   @override
   State<AddProductScreen> createState() => _AddProductScreenState();
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
-  final ApiService _apiService = ApiService();
+  late final ApiService _apiService;
 
   // Add controllers for form fields
   final _nameController = TextEditingController();
@@ -28,6 +30,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
     'Vegan',
     'Egg',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _apiService = ApiService(baseUrl: widget.baseUrl);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -247,7 +255,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Product saved successfully')),
       );
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: ${e.toString()}')),
